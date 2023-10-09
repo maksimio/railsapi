@@ -1,0 +1,2 @@
+class Geek < ApplicationRecord
+end
