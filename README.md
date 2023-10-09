@@ -8,3 +8,6 @@
 # PostgreSQL
 Роль: rails
 Пароль: rails
+
+rails db:migrate
+rails db:seed
