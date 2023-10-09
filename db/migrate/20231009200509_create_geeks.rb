@@ -4,7 +4,6 @@ class CreateGeeks < ActiveRecord::Migration[7.0]
       t.string :name, :null => false
       t.string :stack, :null => false
       t.text :resume
-
       t.timestamps
     end
   end
