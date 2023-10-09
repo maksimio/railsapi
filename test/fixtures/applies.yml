@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  read: false
+  invited: false
+  geek_id: MyString
+
+two:
+  read: false
+  invited: false
+  geek_id: MyString
