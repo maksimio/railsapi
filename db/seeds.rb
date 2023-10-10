@@ -27,6 +27,15 @@ Job.create([
     {name:'Javascript CSS HTML', place:'офис', company_id:4},
 ])
 
+Apply.delete_all
+Apply.reset_pk_sequence
+Apply.create([
+    { job_id: 1, geek_id: 1, read: true, invited: true },
+    { job_id: 1, geek_id: 2, read: false, invited: false },
+    { job_id: 5, geek_id: 5, read: true, invited: false },
+    { job_id: 6, geek_id: 8, read: false, invited: false },
+])
+
 Geek.delete_all
 Geek.reset_pk_sequence
 Geek.create([
@@ -41,11 +50,3 @@ Geek.create([
     { name: "Кристина", stack: "Full stack", resume: false },
 ])
 
-Apply.delete_all
-Apply.reset_pk_sequence
-Apply.create([
-    { job_id: 1, geek_id: 1, read: true, invited: true },
-    { job_id: 1, geek_id: 2, read: false, invited: false },
-    { job_id: 5, geek_id: 5, read: true, invited: false },
-    { job_id: 6, geek_id: 8, read: false, invited: false },
-])
