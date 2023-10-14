@@ -23,7 +23,7 @@ class Api::V1::JobsController < ApplicationController
     def create
       @job = Job.new(job_params)
       if @job.save
-        render json: @job.as_json(except: [:created_at, :updated_at, :deleted], status: :created)
+        render json: @job.as_json(except: [:created_at, :updated_at, :deleted])
       else
         render json: {user: @job.errors, status: :no_content}
       end

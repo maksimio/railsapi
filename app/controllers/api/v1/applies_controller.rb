@@ -1,9 +1,9 @@
 class Api::V1::JobsController < ApplicationController
-    before_action :set_job, only: [:show, :update, :mark_deleted, :destroy]
+    before_action :set_apply, only: [:show, :update, :mark_deleted, :destroy]
   
     def index
       if params[:company_id]
-        @applies = Apply.filter_not_deleted().find(params[:company_id]).applies
+        @applies = Apply.filter_not_deleted
       else
         @applies = Apply.filter_not_deleted
       end

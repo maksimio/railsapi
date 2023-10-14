@@ -20,7 +20,7 @@ class Api::V1::CompaniesController < ApplicationController
     def create
       @company = Company.new(company_params)
       if @company.save
-        render json: @company.as_json(except: [:created_at, :updated_at, :deleted], status: :created)
+        render json: @company.as_json(except: [:created_at, :updated_at, :deleted])
       else
         render json: {user: @company.errors, status: :no_content}
       end

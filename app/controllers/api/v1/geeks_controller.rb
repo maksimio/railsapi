@@ -2,17 +2,25 @@ class Api::V1::GeeksController < ApplicationController
     before_action :set_geek, only: [:show, :update, :mark_deleted, :destroy]
   
     def index
-      render json: { geeks: Geek.filter_not_deleted }, except: [:created_at, :updated_at, :deleted]
+      @geeks = Geek.filter_not_deleted
+      if params[:stack]
+        @geeks = @geeks.select{ |c| c.stack == params[:stack] }
+      end
+      if params[:name]
+        @geeks = @geeks.select{ |c| c.name == params[:name] }
+      end
+
+      render json: @geeks.as_json(except: [:created_at, :updated_at, :deleted])
     end
   
     def show
-      render json: @geek
+      render json: @geek.as_json(except: [:created_at, :updated_at, :deleted])
     end
   
     def create
       @geek = Geek.new(geek_params)
       if @geek.save
-        render json: @geek.as_json, status: :created
+        render json: @geek.as_json(except: [:created_at, :updated_at, :deleted])
       else
         render json: {user: @geek.errors, status: :no_content}
       end
@@ -20,7 +28,7 @@ class Api::V1::GeeksController < ApplicationController
   
     def update
       if @geek.update(geek_params)
-        render json: @geek
+        render json: @geek.as_json(except: [:created_at, :updated_at, :deleted])
       else
         render json: @geek.errors, status: :unprocessable_entity
       end
@@ -35,7 +43,7 @@ class Api::V1::GeeksController < ApplicationController
         render json: { deleted_already: :not_modified }
       else
         @geek.mark_deleted
-        render json: { deleted: @geek, status: :success }, except: [:created_at, :updated_at, :deleted]
+        render json: { deleted: @geek.as_json(except: [:created_at, :updated_at, :deleted]), status: :success }
       end
     end
   
