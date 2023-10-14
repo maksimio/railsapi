@@ -11,3 +11,4 @@
 
 rails db:migrate
 rails db:seed
+rails generate migration NewMigration

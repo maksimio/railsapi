@@ -2,7 +2,7 @@ class Api::V1::GeeksController < ApplicationController
     before_action :set_geek, only: [:show, :update, :mark_deleted]
   
     def index
-      render json: { geeks: Geek.all }, except: [:id, :created_at, :updated_at]
+      render json: { geeks: Geek.all }, except: [:created_at, :updated_at]
     end
   
     def show

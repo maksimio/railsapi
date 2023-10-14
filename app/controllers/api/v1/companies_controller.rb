@@ -1,8 +1,8 @@
 class Api::V1::CompaniesController < ApplicationController
-    before_action :set_company, only: [:show, :update, :destroy]
+    before_action :set_company, only: [:show, :update, :mark_deleted, :destroy]
   
     def index
-      render json: { companies: Company.all }, except: [:id, :created_at, :updated_at]
+      render json: { companies: Company.filter_not_deleted }, except: [:created_at, :updated_at, :deleted]
     end
   
     def show
@@ -27,10 +27,15 @@ class Api::V1::CompaniesController < ApplicationController
     end
   
     def destroy
+      self.mark_deleted
+    end
+
+    def mark_deleted
+      puts "hello world"
       if @company.deleted
         puts "deleted: "
-        render json: { deleted_job: [],
-                       deleted_already: :not_modified,
+        render json: { 
+          deleted_already: :not_modified,
         }
       else
         @company.mark_delete
