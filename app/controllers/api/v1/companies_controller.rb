@@ -2,17 +2,25 @@ class Api::V1::CompaniesController < ApplicationController
     before_action :set_company, only: [:show, :update, :mark_deleted, :destroy]
   
     def index
-      render json: Company.filter_not_deleted, except: [:created_at, :updated_at, :deleted]
+      @companies = Company.filter_not_deleted
+      if params[:location]
+        @companies = @companies.select{ |c| c.location == params[:location] }
+      end
+      if params[:name]
+        @companies = @companies.select{ |c| c.name == params[:name] }
+      end
+
+      render json: @companies.as_json(except: [:created_at, :updated_at, :deleted])
     end
   
     def show
-      render json: @company, except: [:created_at, :updated_at, :deleted]
+      render json: @company.as_json(except: [:created_at, :updated_at, :deleted])
     end
   
     def create
       @company = Company.new(company_params)
       if @company.save
-        render json: @company.as_json, status: :created, except: [:created_at, :updated_at, :deleted]
+        render json: @company.as_json(except: [:created_at, :updated_at, :deleted], status: :created)
       else
         render json: {user: @company.errors, status: :no_content}
       end
@@ -20,7 +28,7 @@ class Api::V1::CompaniesController < ApplicationController
   
     def update
       if @company.update(company_params)
-        render json: @company
+        render json: @company.as_json(except: [:created_at, :updated_at, :deleted])
       else
         render json: @company.errors, status: :unprocessable_entity
       end

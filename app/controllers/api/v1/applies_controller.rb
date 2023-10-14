@@ -7,7 +7,7 @@ class Api::V1::JobsController < ApplicationController
       else
         @applies = Apply.filter_not_deleted
       end
-      render json: { jobs: @jobs }, except: [:id, :created_at, :updated_at, :deleted]
+      render json: { jobs: @applies }, except: [:id, :created_at, :updated_at, :deleted]
     end
   
     def show
