@@ -21,6 +21,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_14_174142) do
     t.boolean "invited", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "deleted", default: false
   end
 
   create_table "companies", force: :cascade do |t|
@@ -37,6 +38,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_14_174142) do
     t.text "resume"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "deleted", default: false
   end
 
   create_table "jobs", force: :cascade do |t|
@@ -45,14 +47,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_14_174142) do
     t.integer "company_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "tests", force: :cascade do |t|
-    t.boolean "read"
-    t.boolean "invited"
-    t.string "geek_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.boolean "deleted", default: false
   end
 
 end

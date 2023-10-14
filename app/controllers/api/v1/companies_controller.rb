@@ -2,17 +2,17 @@ class Api::V1::CompaniesController < ApplicationController
     before_action :set_company, only: [:show, :update, :mark_deleted, :destroy]
   
     def index
-      render json: { companies: Company.filter_not_deleted }, except: [:created_at, :updated_at, :deleted]
+      render json: Company.filter_not_deleted, except: [:created_at, :updated_at, :deleted]
     end
   
     def show
-      render json: @company
+      render json: @company, except: [:created_at, :updated_at, :deleted]
     end
   
     def create
       @company = Company.new(company_params)
       if @company.save
-        render json: @company.as_json, status: :created
+        render json: @company.as_json, status: :created, except: [:created_at, :updated_at, :deleted]
       else
         render json: {user: @company.errors, status: :no_content}
       end
@@ -31,21 +31,13 @@ class Api::V1::CompaniesController < ApplicationController
     end
 
     def mark_deleted
-      puts "hello world"
       if @company.deleted
-        puts "deleted: "
-        render json: { 
-          deleted_already: :not_modified,
-        }
+        render json: { deleted_already: :not_modified }
       else
-        @company.mark_delete
-        render json: { deleted_company: @company,
-                       code: 200,
-                       status: :success,
-        }, except: [:created_at, :updated_at]
+        @company.mark_deleted
+        render json: { deleted: @company, status: :success }, except: [:created_at, :updated_at, :deleted]
       end
     end
-  
   
     private
     def set_company

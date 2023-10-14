@@ -1,8 +1,8 @@
 class Api::V1::GeeksController < ApplicationController
-    before_action :set_geek, only: [:show, :update, :mark_deleted]
+    before_action :set_geek, only: [:show, :update, :mark_deleted, :destroy]
   
     def index
-      render json: { geeks: Geek.all }, except: [:created_at, :updated_at]
+      render json: { geeks: Geek.filter_not_deleted }, except: [:created_at, :updated_at, :deleted]
     end
   
     def show
@@ -26,18 +26,16 @@ class Api::V1::GeeksController < ApplicationController
       end
     end
   
+    def destroy
+      self.mark_deleted
+    end
+
     def mark_deleted
       if @geek.deleted
-        puts "deleted: "
-        render json: { deleted_job: [],
-                       deleted_already: :not_modified,
-        }
+        render json: { deleted_already: :not_modified }
       else
-        @geek.mark_delete
-        render json: { deleted_company: @geek,
-                       code: 200,
-                       status: :success,
-        }, except: [:created_at, :updated_at]
+        @geek.mark_deleted
+        render json: { deleted: @geek, status: :success }, except: [:created_at, :updated_at, :deleted]
       end
     end
   

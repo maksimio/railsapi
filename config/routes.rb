@@ -3,7 +3,9 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :jobs do
         match 'mark_deleted', to: 'jobs/mark_deleted', via: 'put'
-        resources :applies
+        resources :applies do
+          match 'mark_deleted', to: 'applies/mark_deleted', via: 'put'
+        end
       end
       resources :geeks do
         match 'mark_deleted', to: 'geeks/mark_deleted', via: 'put'
