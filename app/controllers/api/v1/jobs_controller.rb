@@ -2,22 +2,28 @@ class Api::V1::JobsController < ApplicationController
     before_action :set_job, only: [:show, :update, :mark_deleted, :destroy]
   
     def index
-      if params[:company_id]
-        @jobs = Job.filter_not_deleted().find(params[:company_id])
-      else
-        @jobs = Job.filter_not_deleted
+      @jobs = Job.filter_not_deleted
+      if params[:place]
+        @jobs = @jobs.select{ |c| c.place == params[:place] }
       end
-      render json: { jobs: @jobs }, except: [:created_at, :updated_at, :deleted]
+      if params[:name]
+        @jobs = @jobs.select{ |c| c.name == params[:name] }
+      end
+      if params[:company_id]
+        @jobs = @jobs.select{ |c| c.company_id == params[:company_id].to_i }
+      end
+
+      render json: @jobs.as_json(except: [:created_at, :updated_at, :deleted])
     end
   
     def show
-      render json: @job
+      render json: @job.as_json(except: [:created_at, :updated_at, :deleted])
     end
   
     def create
       @job = Job.new(job_params)
       if @job.save
-        render json: @job.as_json, status: :created
+        render json: @job.as_json(except: [:created_at, :updated_at, :deleted], status: :created)
       else
         render json: {user: @job.errors, status: :no_content}
       end
@@ -25,7 +31,7 @@ class Api::V1::JobsController < ApplicationController
   
     def update
       if @job.update(job_params)
-        render json: @job
+        render json: @job.as_json(except: [:created_at, :updated_at, :deleted])
       else
         render json: @job.errors, status: :unprocessable_entity
       end
@@ -40,10 +46,9 @@ class Api::V1::JobsController < ApplicationController
         render json: { deleted_already: :not_modified }
       else
         @job.mark_deleted
-        render json: { deleted: @job, status: :success }, except: [:created_at, :updated_at, :deleted]
+        render json: { deleted: @job.as_json(except: [:created_at, :updated_at, :deleted]), status: :success }
       end
     end
-  
   
     private
     def set_job
@@ -54,6 +59,6 @@ class Api::V1::JobsController < ApplicationController
     end
   
     def job_params
-      params.permit(:place, :company_id, :name)
+      params.permit(:place, :name)
     end
 end

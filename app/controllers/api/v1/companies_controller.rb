@@ -43,7 +43,7 @@ class Api::V1::CompaniesController < ApplicationController
         render json: { deleted_already: :not_modified }
       else
         @company.mark_deleted
-        render json: { deleted: @company, status: :success }, except: [:created_at, :updated_at, :deleted]
+        render json: { deleted: @company.as_json(except: [:created_at, :updated_at, :deleted]), status: :success }
       end
     end
   
