@@ -26,7 +26,7 @@ class Api::V1::AppliesController < ApplicationController
     def create
       @apply = Apply.new(apply_params)
       if @apply.save
-        render json: @apply.as_json, status: :created
+        render json: @apply.as_json(except: [:created_at, :updated_at, :deleted])
       else
         render json: {user: @apply.errors, status: :no_content}
       end
