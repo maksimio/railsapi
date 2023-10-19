@@ -49,12 +49,15 @@ class Api::V1::AppliesController < ApplicationController
         render json: { deleted_already: :not_modified }
       else
         @apply.mark_deleted
-        render json: { deleted: @apply, status: :success }, except: [:created_at, :updated_at, :deleted]
+        render json: { deleted: @apply.as_json(except: [:created_at, :updated_at, :deleted]), status: :success }
       end
     end
   
     private
     def set_apply
+      if params[:apply_id]
+        params[:id] = params[:apply_id]
+      end
       @apply = Apply.find(params[:id])
     end
   
