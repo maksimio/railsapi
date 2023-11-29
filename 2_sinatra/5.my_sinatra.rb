@@ -29,16 +29,23 @@ module MyAppModule
       params['splat'].to_s
     end
 
-    # get '/download*.*' do
+    # get '/download1*t*' do
     #   a = params['splat'][0]
     #   # b = ".#{params['splat'][1]}"
     #   b = params['splat'][1]
-    #   # [a, b]
+    #   [a, ' ', b]
     # end
 
-    get '/download*.*' do |path, ext|
-      [ext, ' ', path]
+    get '/download*/*' do
+      a = params['splat'][0]
+      # b = ".#{params['splat'][1]}"
+      b = params['splat'][1]
+      [a, ' ', b]
     end
+
+    # get '/download*.*' do |path, ext|
+    #   [ext, ' ', path]
+    # end
 
     get '/jobs.?:format?' do
       'Маршрут работает'
