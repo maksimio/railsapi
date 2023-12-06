@@ -1,4 +1,4 @@
-Sequel.seed(:development, :test) do # Applies only to "development" and "test" environments
+Sequel.seed(:development, :test) do
   def run
     puts 'Start truncate for all models'
     DB[:applies].truncate(cascade: true, restart: true)
