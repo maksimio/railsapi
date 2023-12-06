@@ -18,6 +18,6 @@ dataset.count
 
 
 ## TODO:
-1. абсолютные пути
-2. не работает content_type
-3. не работают seeds
+1. routes и controllers - одно и то же?
+2. комментарий к get '/jobs'
+3. geeks_routes - параметр со знаком вопроса можно делать (важно оставить слеш)

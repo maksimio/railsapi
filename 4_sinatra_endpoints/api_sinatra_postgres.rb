@@ -3,5 +3,5 @@ before do
 end
 
 def collection_to_api(collection)
-  JSON.dump(collection)#.map{|s| s.to_api})
+  JSON.dump(collection.map{|s| s.to_hash})
 end
