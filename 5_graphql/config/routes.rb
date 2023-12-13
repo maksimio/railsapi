@@ -1,4 +1,12 @@
 Rails.application.routes.draw do
+  post "/graphql", to: "graphql#execute"
+  get "/graphql", to: "graphql#execute"
+  get 'resort/index'
+  get 'resort/show'
+
+
+
+
   scope module: 'api' do
     namespace :v1 do
       resources :applies do

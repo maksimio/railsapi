@@ -13,4 +13,5 @@ rails db:migrate
 rails db:seed
 rails generate migration NewMigration
 
-# TODO не присылать удал. при одиночном запросе
+# GraphQL
+1. http://localhost:3000/graphql?query={testField}
