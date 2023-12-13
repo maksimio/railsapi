@@ -50,3 +50,16 @@ Geek.create([
     { name: "Кристина", stack: "Full stack", resume: false },
 ])
 
+Resort.create([
+    {name: 'Отель в Сочи', email: 'sochi@mail.ru'},
+    {name: 'Отель в Москве', email: 'moscow@mail.ru'}
+])
+
+Apartment.create([
+    {room_type: 'A', description: 'Лучшие апартаменты', resort_id: 1},
+    {room_type: 'B', description: 'Нет отопления', resort_id: 1},
+    {room_type: 'C', description: 'Есть телевизор', resort_id: 1},
+    {room_type: 'A', description: 'Есть письменный стол', resort_id: 2},
+    {room_type: 'A', description: 'Кондиционер', resort_id: 2},
+    {room_type: 'B', description: 'Совмещенный санузел', resort_id: 2}
+])

@@ -15,3 +15,4 @@ rails generate migration NewMigration
 
 # GraphQL
 1. http://localhost:3000/graphql?query={testField}
+

@@ -1,31 +1,34 @@
-# frozen_string_literal: true
-
 module Types
-  class QueryType < Types::BaseObject
-    field :node, Types::NodeType, null: true, description: "Fetches an object given its ID." do
-      argument :id, ID, required: true, description: "ID of the object."
+  class QueryType < GraphQL::Schema::Object
+    include GraphQL::Types::Relay::HasNodeField
+    include GraphQL::Types::Relay::HasNodesField
+
+    field :all_resorts, [ResortType], 'All Resorts everywhere'do
+      argument :size, Int, required: false, default_value: 15
+    end
+    def all_resorts(size:)
+      Resort.all.limit(size).order(id: :asc)
     end
 
-    def node(id:)
-      context.schema.object_from_id(id, context)
+    field :resort, ResortType, 'One Resort by its ID'do
+      argument :id, Int, required: true
+    end
+    def resort(id:)
+      Resort.find(id)
     end
 
-    field :nodes, [Types::NodeType, null: true], null: true, description: "Fetches a list of objects given a list of IDs." do
-      argument :ids, [ID], required: true, description: "IDs of the objects."
+    field :all_apartments, [ApartmentType], 'All Apartment everywhere'do
+      argument :size, Int, required: false, default_value: 15
+    end
+    def all_apartments(size:)
+      Apartment.all.limit(size).order(id: :asc)
     end
 
-    def nodes(ids:)
-      ids.map { |id| context.schema.object_from_id(id, context) }
+    field :apartment, ApartmentType, 'One Apartment by its ID'do
+      argument :id, Int, required: true
     end
-
-    # Add root-level fields here.
-    # They will be entry points for queries on your schema.
-
-    # TODO: remove me
-    field :test_field, String, null: false,
-      description: "An example field added by the generator"
-    def test_field
-      "Hello World!"
+    def apartment(id:)
+      Apartment.find(id)
     end
   end
 end
