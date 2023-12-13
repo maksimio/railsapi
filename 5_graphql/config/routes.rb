@@ -4,7 +4,9 @@ Rails.application.routes.draw do
   get 'resort/index'
   get 'resort/show'
 
-
+  if Rails.env.development?
+    mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql"
+  end
 
 
   scope module: 'api' do
